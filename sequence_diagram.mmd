@@ -1,0 +1,14 @@
+sequenceDiagram
+    participant U as User
+    participant S as SimplifyService
+    participant P as PaymentGateway
+    participant G as GoldPartner
+    U->>S: POST /api/v1/gold/purchase
+    S->>G: GET /api/v1/gold-rate
+    S->>P: POST /api/v1/pay
+    P-->>S: payment success
+    S->>G: POST /api/v1/allot-gold
+    G-->>S: grams allocated
+    S->>Mongo: persist tx and portfolio
+    S-->>U: response
+

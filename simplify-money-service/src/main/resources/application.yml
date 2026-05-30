@@ -1,0 +1,24 @@
+server:
+  port: 8080
+
+spring:
+  data:
+    mongodb:
+      uri: mongodb://mongo:27017/simplify
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "health,info,prometheus,metrics"
+
+clients:
+  payment:
+    base-url: http://payment-gateway-service:8081
+  gold:
+    base-url: http://gold-partner-service:8082
+
+logging:
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} [CID: %X{correlationId}] - %msg %n"
+

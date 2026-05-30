@@ -1,0 +1,21 @@
+{
+  "info": {
+    "name": "Simplify Money",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Purchase Gold",
+      "request": {
+        "method": "POST",
+        "header": [
+          {"key": "Content-Type", "value": "application/json"},
+          {"key": "Idempotency-Key", "value": "demo-key-1"}
+        ],
+        "body": {"mode":"raw","raw":"{\"userId\":\"user-1\",\"amount\":100.0,\"paymentMethod\":\"UPI\"}"},
+        "url": "http://localhost:8080/api/v1/gold/purchase"
+      }
+    }
+  ]
+}
+

@@ -1,0 +1,51 @@
+version: '3.8'
+services:
+  mongo:
+    image: mongo:6.0
+    container_name: simplify-mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+
+  simplify-money-service:
+    build: ./simplify-money-service
+    container_name: simplify-money-service
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mongo
+      - payment-gateway-service
+      - gold-partner-service
+    environment:
+      - SPRING_PROFILES_ACTIVE=default
+
+  payment-gateway-service:
+    build: ./payment-gateway-service
+    container_name: payment-gateway-service
+    ports:
+      - "8081:8081"
+    environment:
+      - PAYMENT_SUCCESS_RATE=0.8
+
+  gold-partner-service:
+    build: ./gold-partner-service
+    container_name: gold-partner-service
+    ports:
+      - "8082:8082"
+    environment:
+      - GOLD_BASE_PRICE=6000
+      - GOLD_FAILURE_RATE=0.1
+
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
+    ports:
+      - "9090:9090"
+
+volumes:
+  mongo-data:
+    driver: local
+

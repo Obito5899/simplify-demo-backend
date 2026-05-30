@@ -1,0 +1,9 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+scrape_configs:
+  - job_name: 'simplify-services'
+    static_configs:
+      - targets: ['simplify-money-service:8080','payment-gateway-service:8081','gold-partner-service:8082']
+    metrics_path: /actuator/prometheus
+
